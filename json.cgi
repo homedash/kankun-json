@@ -11,19 +11,19 @@ TIMINGS=`tail -n+3 /etc/online.txt | sed ':a;N;$!ba;s/\n/","/g'`
 case "$QUERY_STRING" in
   state)
     case "`cat $RELAY_CTRL`" in
-      0) echo '{"state":"off"}'
+      0) echo "{\"state\":\"off\"}"
       ;;
-      1) echo '{"state":"on"}'
+      1) echo "{\"state\":\"on\"}"
       ;;
     esac
   ;;
   on)
     echo 1 > $RELAY_CTRL
-    echo '{"ok":true}'
+    echo "{\"ok\":true}"
   ;;
   off)
     echo 0 > $RELAY_CTRL
-    echo '{"ok":true}'
+    echo "{\"ok\":true}"
   ;;
   timing)
     echo "{\"timings\":[\"$TIMINGS\"]}"
