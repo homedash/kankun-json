@@ -27,3 +27,27 @@ e.g.
 You can see how to turn the switch on / off by browsing to:
 
 `http://10.0.0.43/cgi-bin/json.cgi?on`
+
+## Example Output
+
+Output from the base end-point, `http://10.0.0.43/cgi-bin/json.cgi`. _(Shown pretty-printed for legibility.)_
+
+```
+{
+  "info":{
+    "name":"kankun-json",
+    "version":"0.0.1",
+    "ipAddress":"10.0.0.43"
+  },
+  "links":{
+    "meta":{
+      "state":"http://10.0.0.43/cgi-bin/json.cgi?state",
+      "timing":"http://10.0.0.43/cgi-bin/json.cgi?timing"
+    },
+    "actions":{
+      "on":"http://10.0.0.43/cgi-bin/json.cgi?on",
+      "off":"http://10.0.0.43/cgi-bin/json.cgi?off"
+    }
+  }
+}
+```
