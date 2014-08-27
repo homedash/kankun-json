@@ -12,7 +12,7 @@ A CGI script that provides a simple RESTful JSON API for the Kankun Small K wifi
 ## Getting Setup
 
 1. In the `/www/` directory on your Kankun switch, create a directory called `cgi-bin`, if it doesn't already exist.
-2. Copy the `json.cgi` file into the new '/www/cgi-bin/' directory.
+2. Copy the `json.cgi` file into the new `/www/cgi-bin/` directory.
 3. Be sure permissions are set appropriately on the new directory and file.
 
 ## Usage
