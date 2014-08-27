@@ -17,7 +17,7 @@ A CGI script that provides a simple RESTful JSON API for the Kankun Small K wifi
 
 ## Usage
 
-* Visit the IP address, with the path to the new file, in your web browser:
+Visit the IP address, with the path to the new file, in your web browser:
 
 `http://10.0.0.43/cgi-bin/json.cgi`
 
