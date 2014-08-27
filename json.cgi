@@ -23,7 +23,7 @@ case "$QUERY_STRING" in
   ;;
   off)
     echo 0 > $RELAY_CTRL
-    echo '{"ok":false}'
+    echo '{"ok":true}'
   ;;
   timing)
     echo "{\"timings\":[\"$TIMINGS\"]}"
