@@ -2,6 +2,13 @@
 
 A CGI script that provides a simple RESTful JSON API for the Kankun Small K wifi switch.
 
+## Features
+
+* Get current status of switch
+* Set switch to on
+* Set switch to off
+* View timings set on the switch via the mobile app
+
 ## Getting Setup
 
 1. In the `/www/` directory on your Kankun switch, create a directory called `cgi-bin`, if it doesn't already exist.
