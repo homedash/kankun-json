@@ -5,6 +5,7 @@ echo "Expires: Sat, 26 Jul 1997 05:00:00 GMT"
 echo
 
 RELAY_CTRL=/sys/class/leds/tp-link:blue:relay/brightness
+TIMINGS=`tail -n+3 /etc/online.txt | sed ':a;N;$!ba;s/\n/","/g'`
 
 case "$QUERY_STRING" in
   state)
@@ -22,6 +23,9 @@ case "$QUERY_STRING" in
   off)
     echo 0 > $RELAY_CTRL
     echo '{"ok":false}'
+  ;;
+  timing)
+    echo "{\"timings\":[\"$TIMINGS\"]}"
   ;;
   *)
     echo '{"info":{"name":"kankun-json","version":"0.0.1"},"links":{"meta":{"state":"http://10.0.0.14/cgi-bin/json.cgi?state"},"actions":{"on":"http://10.0.0.14/cgi-bin/json.cgi?on","off":"http://10.0.0.14/cgi-bin/json.cgi?off"}}}'
