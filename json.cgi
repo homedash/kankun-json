@@ -3,6 +3,7 @@ VERSION=0.0.1
 RELAY_CTRL=/sys/class/leds/tp-link:blue:relay/brightness
 TIMINGS=`tail -n+3 /etc/online.txt | sed ':a;N;$!ba;s/\n/","/g'`
 IP_ADDRESS=`ifconfig wlan0 | sed ':a;N;$!ba;s/\n/","/g' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -n 1`
+TZ=`cat /etc/TZ`
 LWRAPPER=""
 RWRAPPER=""
 
@@ -50,5 +51,5 @@ case "$set" in
 esac
 
 if [ -z "$get" ] && [ -z "$set" ]; then
-  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\",\"timing\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=timing\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\"}}}$RWRAPPER"
+  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"timezone\":\"$TZ\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\",\"timing\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=timing\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\"}}}$RWRAPPER"
 fi
