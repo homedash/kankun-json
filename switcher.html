@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<TITLE>---</TITLE>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script>
+var my_switches={};
+$(document).ready(function(){
+    // get the list of switches to poll
+    var switchesJSON = $.ajax( {'url':"switches.json", 'cache':false, 'dataType': "json" })
+        .fail(function() {
+            alert( "cannot find any switches" );
+        })
+        .always(function(data) {
+            // create a button for each switch, start off disabled
+            $.each(data.switches, function(i,obj) {
+                var new_id="switch-"+obj.DisplayName;
+                $("#buttons").append('<div><button class="ui-btn ui-corner-all ui-state-disabled" id="'+new_id+'">'+obj.DisplayName+'</button></div>');
+
+                //get info data for switch
+                var switchesJSON = $.ajax( {'url':"http://"+ obj.ip +"/cgi-bin/json.cgi", 'cache':false, 'dataType': "jsonp" })
+                    .fail(function() {
+                        alert( "cannot contact" );
+                    })
+                    .done(function(data) { // enable switch
+                        $("#"+new_id).toggleClass( "ui-state-disabled" )
+                        my_switches[new_id]=data;
+                        my_switches[new_id].DisplayName=obj.DisplayName;
+                        my_switches[new_id].id=new_id;
+                        GetState(new_id);  // update button color based on live state
+                    })
+            });
+        });
+        
+    $('#buttons').on('click','button', function (evt) {
+        var btn_id=$(this)[0].id;
+        Flip(btn_id);
+    });
+    
+    function GetState(id){
+        var url=my_switches[id].links.meta.state;
+        $.getJSON(url+'&callback=?', function(result){
+            console.log(result);
+            if(result.state=="on") {
+                $('#'+id).css("background", "green");
+            } else {
+                $('#'+id).css("background", "lightblue");                
+            }
+            console.log(my_switches);
+        });
+     };
+    
+    function Flip(id){
+        var url=my_switches[id].links.meta.state;
+        $.getJSON(url+'&callback=?', function(result){
+            if(result.state=="on") {
+                actionurl=my_switches[id].links.actions.off;
+            } else {
+                actionurl=my_switches[id].links.actions.on;
+            }
+            console.log(my_switches[id].links);
+            $.getJSON(actionurl+'&callback=?', function(result){
+                GetState(id);
+            });
+        });
+     };
+});
+
+</script>
+</head>
+<body>
+<div data-role="page" id="index">
+    <div data-role="header">
+		<h1>Switcher</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content" id="buttons">  
+    </div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>Switcher</h4>
+	</div><!-- /footer -->
+
+</div><!-- /page -->
+</body>
+</html>
+
