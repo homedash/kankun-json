@@ -99,7 +99,7 @@ $(document).ready(function(){
                 
                 $('#switches-set').append('<div data-role="collapsible" data-collapsed="true" id="'+new_id+'"> \
                                        <h3 id="colapseable-header-'+new_id+'"><span>'+new_id+'</span><img id="imgSignal-'+new_id+'" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
-                                       <p id="colapseable-content-'+new_id+'"><span></span></p></div>');
+                                       <p id="colapseable-content-'+new_id+'"><span></span></p><table id="infotbl-'+new_id+'"></table></div>');
                 $('#switches-set').collapsibleset().trigger('create');
  
                 all_switches[new_id]=obj;
@@ -135,8 +135,11 @@ $(document).ready(function(){
                 });
                 
                 //show network info
-                $('#right-'+id+' span').html(all_switches[id].ip+'</br>');
-                $('#right-'+id+' span').append(all_switches[id].info.macaddr+'</br>');
+                $('#infotbl-'+id).append('<tr><td>IP:</td><td>'+all_switches[id].ip+'</td></tr>');
+                $('#infotbl-'+id).append('<tr><td>MAC:</td><td>'+all_switches[id].info.macaddr+'</td></tr>');
+                $('#infotbl-'+id).append('<tr><td>BSID:</td><td>'+all_switches[id].info.ssid+'</td></tr>');
+                $('#infotbl-'+id).append('<tr><td>Channel:</td><td>'+all_switches[id].info.channel+'</td></tr>');
+                $('#infotbl-'+id).append('<tr><td>Signal:</td><td>'+all_switches[id].info.signal+'dB</td></tr>');
                 
                 // show wifi info
                 $('#right-'+id+' span').append('<span>'+all_switches[id].info.ssid+'</span></br>');
