@@ -1,13 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-<TITLE>---</TITLE>
+<TITLE>Switcher</TITLE>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<style type="text/css">
+    .Table
+    {
+        display: table;
+        width: 90%;
+    }
+    .Title
+    {
+        display: table-caption;
+        text-align: center;
+        font-weight: bold;
+        font-size: larger;
+    }
+    .Heading
+    {
+        display: table-row;
+        font-weight: bold;
+        text-align: center;
+    }
+    .Row
+    {
+        display: table-row;
+    }
+    .Cell
+    {
+        display: table-cell;
+        border: solid;
+        border-width: thin;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+</style>
+<style type="text/css">
+    .switch {
+        border-style: solid;
+        border-width: 1px;
+        border-color: lightgrey;
+        height:75px; 
+        font-weight: bold;
+          vertical-align: middle;
+
+    }
+    .disabled {
+        text-align: center;
+        color: grey;
+    }
+    .action {
+        font-size: x-large;
+        font-weight: bold;
+    }    
+    .left {
+        float: left;
+        width : 75%;
+        text-align: center;
+        font-size: normal;
+        font-weight: bold;
+        font-family: 'Open Sans Condensed', sans-serif;
+    }
+  
+    .right {
+        float : right;
+        width : 25%;
+        text-align: right;
+        font-size: small;
+        font-weight: normal;
+        font-family: 'Open Sans Condensed', sans-serif;
+    }
+    .info {
+        font-size: normal;
+        font-weight: normal;
+        font-family: 'Open Sans Condensed', sans-serif;
+    }
+    
+</style>
 <script>
-var my_switches={};
+var all_switches={};
 $(document).ready(function(){
     // get the list of switches to poll
     var switchesJSON = $.ajax( {'url':"switches.json", 'cache':false, 'dataType': "json" })
@@ -15,69 +90,76 @@ $(document).ready(function(){
             alert( "cannot find any switches" );
         })
         .always(function(data) {
-            // create a button for each switch, start off disabled
+            // create a section for each switch
+            $('#switches').html('<div data-role="collapsible-set" id="switches-set"></div>');
             $.each(data.switches, function(i,obj) {
-                var new_id="switch-"+obj.DisplayName;
-                $("#buttons").append('<div><button class="ui-btn ui-corner-all ui-state-disabled" id="'+new_id+'">'+obj.DisplayName+'</button></div>');
+                console.log(obj);
+                var new_id="SW-"+obj.DisplayName;
+                console.log(new_id);
+                
+                $('#switches-set').append('<div data-role="collapsible" data-collapsed="true" id="'+new_id+'"> \
+                                       <h3 id="colapseable-header-'+new_id+'"><span>'+new_id+'</span><img id="imgSignal-'+new_id+'" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
+                                       <p id="colapseable-content-'+new_id+'"><span></span></p></div>');
+                $('#switches-set').collapsibleset().trigger('create');
+ 
+                all_switches[new_id]=obj;
+                all_switches[new_id].id=new_id;
+                UpdateSwitchData(new_id);
+            });
+        });
 
-                //get info data for switch
-                var switchesJSON = $.ajax( {'url':"http://"+ obj.ip +"/cgi-bin/json.cgi", 'cache':false, 'dataType': "jsonp" })
-                    .fail(function() {
-                        alert( "cannot contact" );
-                    })
-                    .done(function(data) { // enable switch
-                        $("#"+new_id).toggleClass( "ui-state-disabled" )
-                        my_switches[new_id]=data;
-                        my_switches[new_id].DisplayName=obj.DisplayName;
-                        my_switches[new_id].id=new_id;
-                        GetState(new_id);  // update button color based on live state
-                    })
-            });
-        });
+
+    function UpdateSwitchData(id){
+        ip=all_switches[id].ip;
         
-    $('#buttons').on('click','button', function (evt) {
-        var btn_id=$(this)[0].id;
-        Flip(btn_id);
-    });
-    
-    function GetState(id){
-        var url=my_switches[id].links.meta.state;
-        $.getJSON(url+'&callback=?', function(result){
-            console.log(result);
-            if(result.state=="on") {
-                $('#'+id).css("background", "green");
-            } else {
-                $('#'+id).css("background", "lightblue");                
-            }
-            console.log(my_switches);
-        });
-     };
-    
-    function Flip(id){
-        var url=my_switches[id].links.meta.state;
-        $.getJSON(url+'&callback=?', function(result){
-            if(result.state=="on") {
-                actionurl=my_switches[id].links.actions.off;
-            } else {
-                actionurl=my_switches[id].links.actions.on;
-            }
-            console.log(my_switches[id].links);
-            $.getJSON(actionurl+'&callback=?', function(result){
-                GetState(id);
+        var switchinfoJSON = $.ajax( {'url':"http://"+ ip +"/cgi-bin/json.cgi", 'cache':false, 'dataType': "jsonp" })
+            .fail(function() {
+                $('#imgSignal-'+id).attr('src',"images/wifi_a2.png");
+                alert( "cannot contact" );
+            })
+            .done(function(data) { // enable switch
+                //add the data from the device to the array
+                console.log(all_switches[id]);
+                $.extend(all_switches[id],data);
+                
+                //check the wifi signal
+                var dBm=eval(all_switches[id].info.signal);
+                var imgSig=("images/wifi_a"+Math.round(((2 * (dBm + 100)) / 20)+1) + ".png");
+                $('#imgSignal-'+id).attr('src',imgSig);
+                console.log($('#imgSignal-'+id));
+                
+                // show actions
+                $('#colapseable-header-'+id+' span').html(all_switches[id].DisplayName);
+                $.each(all_switches[id].links.actions, function (key, data) {
+                    $('#colapseable-content-'+id+' span').append('<a href="'+data+'" class="ui-btn" id="action-"'+key+'>'+key+'</a>');
+                });
+                
+                //show network info
+                $('#right-'+id+' span').html(all_switches[id].ip+'</br>');
+                $('#right-'+id+' span').append(all_switches[id].info.macaddr+'</br>');
+                
+                // show wifi info
+                $('#right-'+id+' span').append('<span>'+all_switches[id].info.ssid+'</span></br>');
+                $('#right-'+id+' span').append('<span>ch '+all_switches[id].info.channel+'</span>');
+                
+                //update switch based on actual reported state
+                $.getJSON(all_switches[id].links.meta.state+'&callback=?', function(result){
+                    console.log(result);
+                });
             });
-        });
-     };
-});
+        }
+    });
 
 </script>
 </head>
 <body>
 <div data-role="page" id="index">
+    
     <div data-role="header">
 		<h1>Switcher</h1>
 	</div><!-- /header -->
 
-	<div role="main" class="ui-content" id="buttons">  
+	<div role="main" class="ui-content Table" id="switches">  
     </div><!-- /content -->
 
 	<div data-role="footer">
