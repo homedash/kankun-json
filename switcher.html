@@ -7,80 +7,7 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<style type="text/css">
-    .Table
-    {
-        display: table;
-        width: 90%;
-    }
-    .Title
-    {
-        display: table-caption;
-        text-align: center;
-        font-weight: bold;
-        font-size: larger;
-    }
-    .Heading
-    {
-        display: table-row;
-        font-weight: bold;
-        text-align: center;
-    }
-    .Row
-    {
-        display: table-row;
-    }
-    .Cell
-    {
-        display: table-cell;
-        border: solid;
-        border-width: thin;
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-</style>
-<style type="text/css">
-    .switch {
-        border-style: solid;
-        border-width: 1px;
-        border-color: lightgrey;
-        height:75px; 
-        font-weight: bold;
-          vertical-align: middle;
 
-    }
-    .disabled {
-        text-align: center;
-        color: grey;
-    }
-    .action {
-        font-size: x-large;
-        font-weight: bold;
-    }    
-    .left {
-        float: left;
-        width : 75%;
-        text-align: center;
-        font-size: normal;
-        font-weight: bold;
-        font-family: 'Open Sans Condensed', sans-serif;
-    }
-  
-    .right {
-        float : right;
-        width : 25%;
-        text-align: right;
-        font-size: small;
-        font-weight: normal;
-        font-family: 'Open Sans Condensed', sans-serif;
-    }
-    .info {
-        font-size: normal;
-        font-weight: normal;
-        font-family: 'Open Sans Condensed', sans-serif;
-    }
-    
-</style>
 <script>
 var all_switches={};
 $(document).ready(function(){
@@ -108,6 +35,12 @@ $(document).ready(function(){
             });
         });
 
+    function takeAction(url){
+        $.getJSON(url+'&callback=?', function(result){
+            console.log(result);
+        });
+    }
+
 
     function UpdateSwitchData(id){
         ip=all_switches[id].ip;
@@ -131,7 +64,13 @@ $(document).ready(function(){
                 // show actions
                 $('#colapseable-header-'+id+' span').html(all_switches[id].DisplayName);
                 $.each(all_switches[id].links.actions, function (key, data) {
-                    $('#colapseable-content-'+id+' span').append('<a href="'+data+'" class="ui-btn" id="action-"'+key+'>'+key+'</a>');
+                    console.log(key);
+                    //$('#colapseable-content-'+id+' span').append('<a href="'+data+'" class="ui-btn" id="action-"'+key+'>'+key+'</a>');
+                    $('#colapseable-content-'+id+' span').append('<button class="ui-btn" id="'+id+'-action-'+key+'">'+key+'</button>');
+                
+                $('#'+id+'-action-'+key).click({url:data }, function(evt){
+                        takeAction(evt.data.url);
+                    });
                 });
                 
                 //show network info
