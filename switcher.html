@@ -57,6 +57,7 @@ $(document).ready(function(){
                 
                 //check the wifi signal
                 var dBm=eval(all_switches[id].info.signal);
+                if(dBm>-45) dBm=45; 
                 var imgSig=("images/wifi_a"+Math.round(((2 * (dBm + 100)) / 20)+1) + ".png");
                 $('#imgSignal-'+id).attr('src',imgSig);
                 console.log($('#imgSignal-'+id));
