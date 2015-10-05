@@ -3,10 +3,11 @@
 <head>
 <TITLE>Switcher</TITLE>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
 
 <script>
 var all_switches={};
@@ -31,13 +32,14 @@ $(document).ready(function(){
  
                 all_switches[new_id]=obj;
                 all_switches[new_id].id=new_id;
-                UpdateSwitchData(new_id);
+                setInterval(UpdateSwitchData(new_id),5000);
             });
         });
 
-    function takeAction(url){
+    function takeAction(url,id){
         $.getJSON(url+'&callback=?', function(result){
             console.log(result);
+            UpdateSwitchData(id);
         });
     }
 
@@ -64,17 +66,19 @@ $(document).ready(function(){
                 
                 // show actions
                 $('#colapseable-header-'+id+' span').html(all_switches[id].DisplayName);
+                $('#colapseable-content-'+id+' span').html('');
                 $.each(all_switches[id].links.actions, function (key, data) {
                     console.log(key);
                     //$('#colapseable-content-'+id+' span').append('<a href="'+data+'" class="ui-btn" id="action-"'+key+'>'+key+'</a>');
                     $('#colapseable-content-'+id+' span').append('<button class="ui-btn" id="'+id+'-action-'+key+'">'+key+'</button>');
                 
                 $('#'+id+'-action-'+key).click({url:data }, function(evt){
-                        takeAction(evt.data.url);
+                        takeAction(evt.data.url,id);
                     });
                 });
                 
                 //show network info
+                $('#infotbl-'+id).empty();
                 $('#infotbl-'+id).append('<tr><td>Uptime:</td><td>'+all_switches[id].info.uptime+'</td></tr>');
                 $('#infotbl-'+id).append('<tr><td>IP:</td><td>'+all_switches[id].ip+'</td></tr>');
                 $('#infotbl-'+id).append('<tr><td>MAC:</td><td>'+all_switches[id].info.macaddr+'</td></tr>');
@@ -89,6 +93,7 @@ $(document).ready(function(){
                 //update switch based on actual reported state
                 $.getJSON(all_switches[id].links.meta.state+'&callback=?', function(result){
                     console.log(result);
+                    $('#colapseable-header-'+id+' span').html(all_switches[id].DisplayName + " (" + result.state + ")");
                 });
             });
         }
