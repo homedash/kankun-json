@@ -75,6 +75,7 @@ $(document).ready(function(){
                 });
                 
                 //show network info
+                $('#infotbl-'+id).append('<tr><td>Uptime:</td><td>'+all_switches[id].info.uptime+'</td></tr>');
                 $('#infotbl-'+id).append('<tr><td>IP:</td><td>'+all_switches[id].ip+'</td></tr>');
                 $('#infotbl-'+id).append('<tr><td>MAC:</td><td>'+all_switches[id].info.macaddr+'</td></tr>');
                 $('#infotbl-'+id).append('<tr><td>BSID:</td><td>'+all_switches[id].info.ssid+'</td></tr>');
