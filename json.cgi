@@ -1,13 +1,15 @@
 #!/bin/sh
-VERSION=0.0.1
+echo $QUERY_STRING > /tmp/query_string
+VERSION=0.0.2
 RELAY_CTRL=/sys/class/leds/tp-link:blue:relay/brightness
 TIMINGS=`tail -n+3 /etc/online.txt | sed ':a;N;$!ba;s/\n/","/g'`
 IP_ADDRESS=`ifconfig wlan0 | sed ':a;N;$!ba;s/\n/","/g' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -n 1`
 TZ=`cat /etc/TZ`
-WIFI_SSID=`iw dev wlan0 link | grep SSID | awk '{ print $2 }'`
+SSID=`iw dev wlan0 link | grep SSID | awk '{ print $2 }'`
 WIFI_SIGNAL=`iw dev wlan0 link | grep signal | awk '{ print $2 }'`
 WIFI_CHANNEL=`iw dev wlan0 info | grep channel | awk '{ print $2 }'`
-WIFI_MACADDR=`iw dev wlan0 info  | grep addr | awk '{ print $2 }'`
+MACADDR=`iw dev wlan0 info  | grep addr | awk '{ print $2 }'`
+UPTIME=`uptime | awk -F , '{ print $1 }' | awk '{ print $3}'`
 LWRAPPER=""
 RWRAPPER=""
 
@@ -55,7 +57,6 @@ case "$set" in
 esac
 
 if [ -z "$get" ] && [ -z "$set" ]; then
-  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"wifi_macaddr\":\"$WIFI_MACADDR\",\"wifi_ssid\":\"$WIFI_SSID\",\"wifi_channel\":\"$WIFI_CHANNEL\",\"wifi_signal\":\"$WIFI_SIGNAL\",\"timezone\":\"$TZ\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\",\"timing\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=timing\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\"}}}$RWRAPPER"
+  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"macaddr\":\"$MACADDR\",\"ssid\":\"$SSID\",\"channel\":\"$WIFI_CHANNEL\",\"signal\":\"$WIFI_SIGNAL\",\"timezone\":\"$TZ\",\"uptime\":\"$UPTIME\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\",\"timing\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=timing\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\"}}}$RWRAPPER"
 fi
-
 
