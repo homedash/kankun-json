@@ -59,13 +59,14 @@ $(document).ready(function(){
                 
                 //check the wifi signal
                 var dBm=eval(all_switches[id].info.signal);
-                if(dBm>-45) dBm=45; 
+                if(dBm>-46) dBm=46; 
                 var imgSig=("images/wifi_a"+Math.round(((2 * (dBm + 100)) / 20)+1) + ".png");
                 $('#imgSignal-'+id).attr('src',imgSig);
                 console.log($('#imgSignal-'+id));
                 
                 // show actions
                 $('#colapseable-header-'+id+' span').html(all_switches[id].DisplayName);
+                console.log(all_switches[id]);
                 $('#colapseable-content-'+id+' span').html('');
                 $.each(all_switches[id].links.actions, function (key, data) {
                     console.log(key);
@@ -73,6 +74,7 @@ $(document).ready(function(){
                     $('#colapseable-content-'+id+' span').append('<button class="ui-btn" id="'+id+'-action-'+key+'">'+key+'</button>');
                 
                 $('#'+id+'-action-'+key).click({url:data }, function(evt){
+                        console.log(evt);
                         takeAction(evt.data.url,id);
                     });
                 });
