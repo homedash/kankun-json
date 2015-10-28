@@ -27,7 +27,8 @@ $(document).ready(function(){
                 
                 $('#switches-set').append('<div data-role="collapsible" data-collapsed="true" id="'+new_id+'"> \
                                        <h3 id="colapseable-header-'+new_id+'"><span>'+new_id+'</span><img id="imgSignal-'+new_id+'" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
-                                       <p id="colapseable-content-'+new_id+'"><span></span></p><table id="infotbl-'+new_id+'"></table></div>');
+                                       <p id="colapseable-content-'+new_id+'"><span></span></p><table id="infotbl-'+new_id+'"> \
+                                       </table><table id="jobtbl-'+new_id+'"></table></div>');
                 $('#switches-set').collapsibleset().trigger('create');
  
                 all_switches[new_id]=obj;
@@ -97,6 +98,19 @@ $(document).ready(function(){
                     console.log(result);
                     $('#colapseable-header-'+id+' span').html(all_switches[id].DisplayName + " (" + result.state + ")");
                 });
+                
+                //list any scheduled jobs
+                var getjobs_url="http://"+ip+"/cgi-bin/json.cgi?get=jobs";
+                $('#jobtbl-'+id).empty();
+                $.getJSON(getjobs_url+'&callback=?', function(result){
+                    $.each(result.jobs, function (key,data) {
+                        console.log(data);
+                        var action = ((data.queue == 'b') ? 'on' : 'off');
+                        var cancel_url="http://"+ip+"/cgi-bin/json.cgi?canceljob="+data.jobid;
+                        $('#jobtbl-'+id).append('<tr><td>'+action+'</td><td>'+data.date+'</td><td><a href="'+cancel_url+'" class="ui-btn ui-icon-delete ui-btn-icon-left " >cancel</a></td></tr>');
+                    });
+                });
+                
             });
         }
     });
@@ -105,7 +119,6 @@ $(document).ready(function(){
 </head>
 <body>
 <div data-role="page" id="index">
-    
     <div data-role="header">
 		<h1>Switcher</h1>
 	</div><!-- /header -->
