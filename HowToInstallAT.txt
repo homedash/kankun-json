@@ -24,12 +24,9 @@ INSTALL
 
 opkg update
 opkg install at
-mkdir /var/spool/cron/atjobs -p -m 755
-mkdir /var/spool/cron/atspool -p -m 755
-touch /var/spool/cron/atjobs/.SEQ
-chmod 775 /var/spool/cron/*
-chown nobody:root  /var/spool/cron/*
-/etc/init.d/atd start
+
+/etc/init.d/atd enable
+/etc/rc.d/S50atd start
 
 TEST
 echo "Hello World" | at now + 1 minute -m
