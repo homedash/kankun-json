@@ -4,9 +4,6 @@ A CGI script that provides a simple RESTful JSON API for the Kankun Small K wifi
 
 _This project is a fork of Konstantin Dondoshanskiy's `relay.cgi` script._
 
-_This project is a fork of @jeffrey_way `json.cgi` script._
-
-
 ## Features
 
 * Get current status of switch
