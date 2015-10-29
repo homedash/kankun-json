@@ -1,0 +1,33 @@
+This document will explain how to install the Linux util called `at` which can be used for adhoc scheduling.
+http://linux.die.net/man/1/at
+
+Package: at
+Version: 3.1.13-2
+Depends: libc, libelf1
+Status: install user installed
+Section: utils
+Architecture: ar71xx
+Maintainer: Luka Perkov <openwrt@lukaperkov.net>
+MD5Sum: 30531fd3c9f5edb525b4c9e5438a5382
+Size: 22677
+Filename: at_3.1.13-2_ar71xx.ipk
+Source: feeds/oldpackages/utils/at
+Description: At and batch read shell commands from standard input storing them as a job to
+ be scheduled for execution in the future.
+Installed-Time: 1445173336
+
+
+Make sure you have an internet connection.
+Make sure you have OPKG installed.
+
+INSTALL
+
+opkg update
+opkg install at
+
+/etc/init.d/atd enable
+/etc/rc.d/S50atd start
+
+TEST
+echo "Hello World" | at now + 1 minute -m
+atq
