@@ -27,7 +27,10 @@ $(document).ready(function(){
                 
                 $('#switches-set').append('<div data-role="collapsible" data-collapsed="true" id="'+new_id+'"> \
                                        <h3 id="colapseable-header-'+new_id+'"><span>'+new_id+'</span><img id="imgSignal-'+new_id+'" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
-                                       <p id="colapseable-content-'+new_id+'"><span></span></p><table id="infotbl-'+new_id+'"> \
+                                       <p id="colapseable-content-'+new_id+'"><span> \
+                                               <div class="ui-field-contain"><label for="slider-fill'+new_id+'">Delay mins:</label> \
+                                               <input type="range" name="slider-fill'+new_id+'" id="slider-fill-'+new_id+'" value="60" min="0" max="300"  step="30" data-highlight="true"></div> \
+                                               </span></p><table id="infotbl-'+new_id+'"> \
                                        </table><table id="jobtbl-'+new_id+'"></table></div>');
                 $('#switches-set').collapsibleset().trigger('create');
  
@@ -38,8 +41,11 @@ $(document).ready(function(){
         });
 
     function takeAction(url,id){
+        if(url.lastIndexOf("&mins=60")){  // if the url includes mins it's a delyed action, use the value from the slider.
+                var v=$("#slider-fill-"+id).val();
+                url=url.replace("&mins=60", "&mins="+v);
+            }
         $.getJSON(url+'&callback=?', function(result){
-            console.log(result);
             UpdateSwitchData(id);
         });
     }
