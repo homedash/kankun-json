@@ -67,7 +67,7 @@ $(document).ready( function() {
         $('#infotbl-' + id).append( '<tr><td>MAC:</td><td>' + all_switches[id].info.macaddr + '</td></tr>' );
         $('#infotbl-' + id).append( '<tr><td>BSID:</td><td>' + all_switches[id].info.ssid + '</td></tr>' );
         $('#infotbl-' + id).append( '<tr><td>Channel:</td><td>' + all_switches[id].info.channel + '</td></tr>' );
-        $('#infotbl-' + id).append( '<tr><td>Signal:</td><td>' + all_switches[id].info.signal + 'dB</td></tr>' );
+        $('#infotbl-' + id).append( '<tr><td>Signal:</td><td>' + all_switches[id].info.signal + ' dBm</td></tr>' );
 
         // show wifi info
         $('#right-' + id + ' span').append( '<span>' + all_switches[id].info.ssid + '</span></br>' );
