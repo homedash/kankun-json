@@ -18,7 +18,7 @@ $(document).ready( function() {
             <h3 id="colapseable-header-' + new_id + '"><span>' + new_id + '</span><img id="imgSignal-' + new_id + '" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
             <p id="colapseable-content-' + new_id + '"><span> \
               <div class="ui-field-contain"><label for="slider-fill'+new_id+'">Delay mins:</label> \
-              <input type="range" name="slider-fill'+new_id+'" id="slider-fill-'+new_id+'" value="60" min="0" max="300"  step="30" data-highlight="true"></div> \
+              <input type="range" name="slider-fill'+new_id+'" id="slider-fill-'+new_id+'" value="60" min="0" max="300"  step="15" data-highlight="true"></div> \
             </span></p><table id="infotbl-' + new_id + '"> \
             </table><table id="jobtbl-' + new_id + '"></table> \
         </div>');
