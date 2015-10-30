@@ -1,5 +1,5 @@
-var all_switches={};
-$(document).ready(function(){
+var all_switches = {};
+$(document).ready( function() {
   // get the list of switches to poll
   var switchesJSON = $
     .ajax( { url: 'switches.json', cache: false, dataType: 'json' } )
