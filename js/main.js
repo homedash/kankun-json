@@ -28,7 +28,6 @@ $(document).ready(function(){
 
   function takeAction( url, id ) {
     $.getJSON( url + '&callback=?', function( result ) {
-      console.log( result );
       UpdateSwitchData( id );
     });
   }
