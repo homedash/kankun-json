@@ -46,10 +46,7 @@ $(document).ready( function() {
         $.extend( all_switches[id], data );
 
         //check the wifi signal
-        var dBm = eval( all_switches[id].info.signal );
-        if ( dBm > -46 )
-          dBm = 46;
-        var imgSig = ( 'images/wifi_a' + Math.round( ( ( 2 * ( dBm + 100 ) ) / 20 ) + 1 ) + '.png' );
+        var imgSig = ( 'images/' + getSignalStrengthImage( all_switches[id].info.signal ) );
         $('#imgSignal-' + id).attr( 'src', imgSig );
 
         // show actions
@@ -95,6 +92,44 @@ $(document).ready( function() {
       });
   }
 });
+
+function getSignalStrengthImage( dBm ) {
+  var wifiImages = [];
+  wifiImages['none'] = 'wifi_a1.png';
+  wifiImages['low'] = 'wifi_a2.png';
+  wifiImages['poor'] = 'wifi_a3.png';
+  wifiImages['fair'] = 'wifi_a4.png';
+  wifiImages['good'] = 'wifi_a5.png';
+  wifiImages['excellent'] = 'wifi_a6.png';
+
+  dBm = Math.ceil( Math.abs( dBm ) / 10 );
+
+  if ( dBm > 7 )
+    dBm = 8;
+  if ( dBm < 5)
+    dBm = 4;
+
+  var signalStrength = '';
+
+  switch ( dBm ) {
+    case 4:
+      signalStrength = 'excellent';
+      break;
+    case 5:
+      signalStrength = 'good';
+      break;
+    case 6:
+      signalStrength = 'fair';
+      break;
+    case 7:
+      signalStrength = 'poor';
+      break;
+    default:
+      signalStrength = 'low';
+  }
+
+  return wifiImages[signalStrength];
+}
 
 function slugify( text ) {
   return text.toString().toLowerCase()
