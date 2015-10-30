@@ -1,7 +1,12 @@
 {
-  "switches":[
-       {"DisplayName":"Office","ip":"192.168.0.10"}, 
-       {"DisplayName":"Pool","ip":"192.168.0.11"},
-       {"DisplayName":"broken","ip":"192.168.0.12"}
+  "switches": [
+    {
+      "DisplayName": "Switch 1",
+      "ip": "10.0.0.10"
+    },
+    {
+      "DisplayName": "Switch 2",
+      "ip": "10.0.0.11"
+    }
   ]
 }
