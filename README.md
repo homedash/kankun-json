@@ -1,6 +1,6 @@
 # kankun-json
 
-A CGI script that provides a simple RESTful JSON API for the Kankun Small K wifi switch.
+A CGI script that provides a simple web interface and RESTful JSON API for the Kankun Small K wifi switch.
 
 _This project is a fork of Konstantin Dondoshanskiy's `relay.cgi` script._
 
@@ -12,32 +12,36 @@ _This project is a fork of Konstantin Dondoshanskiy's `relay.cgi` script._
 
 ## Getting Setup
 
-1. In the `/www/` directory on your Kankun switch, create a directory called `cgi-bin`, if it doesn't already exist.
-2. Copy the `json.cgi` file into the new `/www/cgi-bin/` directory.
-3. Be sure permissions are set appropriately on the new directory and file.
+1. Copy the contents of this repository into the `/www/` directory on your Kankun switch.
+2. Be sure permissions are set appropriately on the new directories and files.
 
 ## Usage
 
-Visit the IP address, with the path to the new file, in your web browser:
+Visit the IP address of your switch in your web browser:
 
-`http://10.0.0.43/cgi-bin/json.cgi`
+`http://10.0.0.10/`
 
-This should show you information about the script, and what other functions are available.
+This should show you information about the switches, and allow you to control them.
 
 e.g.
-You can see how to turn the switch on / off by browsing to:
+You can see how to turn the switch on / off, or set delayed on / off.
 
-`http://10.0.0.43/cgi-bin/json.cgi?on`
+## Screenshots
 
-## Example Output
+![Main web interface](https://cldup.com/5D7vMF0lTd-1200x1200.png)
 
-Output from the base end-point, `http://10.0.0.43/cgi-bin/json.cgi`. _(Shown pretty-printed for legibility.)_
+![Individual switch slide down](https://cldup.com/IWUIAjr2pJ-1200x1200.png)
+
+## Example API Output
+
+Output from the base end-point, `http://10.0.0.10/cgi-bin/json.cgi`. _(Shown pretty-printed for legibility.)_
+
 ```json
 {
     "info": {
         "name": "kankun-json",
-        "version": "0.0.2",
-        "ipAddress": "192.168.0.11",
+        "version": "0.0.3",
+        "ipAddress": "10.0.0.10",
         "macaddr": "00:15:61:f2:83:57",
         "ssid": "ireadyourmail",
         "channel": "11",
@@ -47,12 +51,12 @@ Output from the base end-point, `http://10.0.0.43/cgi-bin/json.cgi`. _(Shown pre
     },
     "links": {
         "meta": {
-            "state": "http://192.168.0.11/cgi-bin/json.cgi?get=state",
-            "timing": "http://192.168.0.11/cgi-bin/json.cgi?get=timing"
+            "state": "http://10.0.0.10/cgi-bin/json.cgi?get=state",
+            "timing": "http://10.0.0.10/cgi-bin/json.cgi?get=timing"
         },
         "actions": {
-            "on": "http://192.168.0.11/cgi-bin/json.cgi?set=on",
-            "off": "http://192.168.0.11/cgi-bin/json.cgi?set=off"
+            "on": "http://10.0.0.10/cgi-bin/json.cgi?set=on",
+            "off": "http://10.0.0.10/cgi-bin/json.cgi?set=off"
         }
     }
 }
