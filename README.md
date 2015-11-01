@@ -13,7 +13,8 @@ _This project is a fork of Konstantin Dondoshanskiy's `relay.cgi` script._
 ## Getting Setup
 
 1. Copy the contents of this repository into the `/www/` directory on your Kankun switch.
-2. Be sure permissions are set appropriately on the new directories and files.
+2. Be sure permissions are set appropriately on the new directories and files (usually `0755` for directories and `0644` for files).
+3. Edit the `switches.json` file to use the IP addresses and labels appropriate for your switches.
 
 ## Usage
 
