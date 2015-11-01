@@ -11,6 +11,7 @@ MACADDR=`iw dev wlan0 info  | grep addr | awk '{ print $2 }'`
 UPTIME=`uptime | awk -F , '{ print $1 }'`
 LWRAPPER=""
 RWRAPPER=""
+CURRENT_STATE=`cat $RELAY_CTRL`
 
 get=$(echo "$QUERY_STRING" | sed -n 's/^.*get=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
 set=$(echo "$QUERY_STRING" | sed -n 's/^.*set=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
@@ -35,7 +36,7 @@ echo
 
 case "$get" in
   state)
-    case "`cat $RELAY_CTRL`" in
+    case "$CURRENT_STATE" in
       0) echo "$callback$LWRAPPER{\"state\":\"off\"}$RWRAPPER"
       ;;
       1) echo "$callback$LWRAPPER{\"state\":\"on\"}$RWRAPPER"
@@ -75,6 +76,25 @@ case "$set" in
     else
       echo 0 > $RELAY_CTRL
     fi
+    echo "$callback$LWRAPPER{\"ok\":true}$RWRAPPER"
+  ;;
+  toggle)
+    case "$CURRENT_STATE" in
+      0)
+        if [ ! -z $mins ]; then
+          echo "echo 1 > $RELAY_CTRL" | at now + $mins minute -M -q d
+        else
+          echo 1 > $RELAY_CTRL
+        fi
+      ;;
+      1)
+        if [ ! -z $mins ]; then
+          echo "echo 0 > $RELAY_CTRL" | at now + $mins minute -M -q d
+        else
+          echo 0 > $RELAY_CTRL
+        fi
+      ;;
+    esac
     echo "$callback$LWRAPPER{\"ok\":true}$RWRAPPER"
   ;;
 esac
