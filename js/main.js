@@ -10,11 +10,12 @@ $(document).ready( function() {
     .always( function( data ) {
       // create a section for each switch
       $('#switches').html( '<div data-role="collapsible-set" id="switches-set"></div>' );
+      var menuCollapsed = ( data.switches.length > 1 ? 'true' : 'false' );
       $.each( data.switches, function( i, obj ) {
         var new_id = 'SW-' + slugify( obj.DisplayName );
 
         $('#switches-set').append(
-          '<div data-role="collapsible" data-collapsed="true" id="' + new_id + '"> \
+          '<div data-role="collapsible" data-collapsed="' + menuCollapsed + '" id="' + new_id + '"> \
             <h3 id="colapseable-header-' + new_id + '"><span>' + new_id + '</span><img id="imgSignal-' + new_id + '" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
             <p id="colapseable-content-' + new_id + '"><span> \
               <div class="ui-field-contain"><label for="slider-fill'+new_id+'">Delay mins:</label> \
