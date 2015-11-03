@@ -10,11 +10,12 @@ $(document).ready( function() {
     .always( function( data ) {
       // create a section for each switch
       $('#switches').html( '<div data-role="collapsible-set" id="switches-set"></div>' );
+      var menuCollapsed = ( data.switches.length > 1 ? 'true' : 'false' );
       $.each( data.switches, function( i, obj ) {
         var new_id = 'SW-' + slugify( obj.DisplayName );
 
         $('#switches-set').append(
-          '<div data-role="collapsible" data-collapsed="true" id="' + new_id + '"> \
+          '<div data-role="collapsible" data-collapsed="' + menuCollapsed + '" id="' + new_id + '"> \
             <h3 id="colapseable-header-' + new_id + '"><span>' + new_id + '</span><img id="imgSignal-' + new_id + '" src="images/wifi_a1.png"  height="25" width="20" align="right"></h3> \
             <p id="colapseable-content-' + new_id + '"><span> \
               <div class="ui-field-contain"><label for="slider-fill'+new_id+'">Delay mins:</label> \
@@ -32,9 +33,10 @@ $(document).ready( function() {
 });
 
 function takeAction( url, id ) {
-  if ( url.lastIndexOf( '&mins=60' ) ) {  // if the url includes mins it's a delyed action, use the value from the slider.
+  var param='&mins='+all_switches[id].info.countdown;
+  if ( url.indexOf("mins=") > -1 ) {  // if the url includes mins it's a delyed action, use the value from the slider.
     var v = $( '#slider-fill-' + id ).val();
-    url = url.replace( '&mins=60', '&mins=' + v );
+    url = url.replace(/mins=[0-9]+/,'&mins=' + v)
   }
   $.getJSON( url + '&callback=?', function( result ) {
     UpdateSwitchData( id );
@@ -68,6 +70,10 @@ function UpdateSwitchData( id ) {
           takeAction( evt.data.url, id );
         });
       });
+
+      //update lsider value based on data from switch
+      $('#slider-fill-'+id).val(all_switches[id].info.countdown);
+      $('#slider-fill-'+id).slider('refresh');
 
       //show network info
       $('#infotbl-' + id).empty();
