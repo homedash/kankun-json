@@ -75,7 +75,11 @@ esac
 
 case "$set" in
   on)
-
+    if [ ! -z $mins ]; then
+      echo "echo 1 > $RELAY_CTRL" | at now + $mins minute -M -q b
+    else
+      echo 1 > $RELAY_CTRL
+    fi
     echo "$callback$LWRAPPER{\"ok\":true}$RWRAPPER"
   ;;
   off)
