@@ -13,12 +13,24 @@ LWRAPPER=""
 RWRAPPER=""
 CURRENT_STATE=`cat $RELAY_CTRL`
 
+DELAYMINS=30
+# if a previous delay has been used, use that instead
+if [ -e "/tmp/delaymins" ]; then
+  DELAYMINS=`cat /tmp/delaymins`
+fi
+
+# extract params passed to script
 get=$(echo "$QUERY_STRING" | sed -n 's/^.*get=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
 set=$(echo "$QUERY_STRING" | sed -n 's/^.*set=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
 mins=$(echo "$QUERY_STRING" | sed -n 's/^.*mins=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
 canceljob=$(echo "$QUERY_STRING" | sed -n 's/^.*canceljob=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
-
 callback=$(echo "$QUERY_STRING" | sed -n 's/^.*callback=\([^&]*\).*$/\1/p' | sed "s/%20/ /g")
+
+# save previous countdown
+if [ ! -z $mins ]; then
+  echo "$mins" > /tmp/delaymins
+  DELAYMINS="$mins"
+fi
 
 if [ ! -z $callback ]; then
   LWRAPPER="("
@@ -106,5 +118,5 @@ if [ "$canceljob" -ge 0 ] 2> /dev/null; then
 fi
 
 if [ -z "$get" ] && [ -z "$set" ]; then
-  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"macaddr\":\"$MACADDR\",\"ssid\":\"$SSID\",\"channel\":\"$WIFI_CHANNEL\",\"signal\":\"$WIFI_SIGNAL\",\"timezone\":\"$TZ\",\"uptime\":\"$UPTIME\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"ondelay\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on&mins=60\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\",\"offdelay\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off&mins=60\"}}}$RWRAPPER"
+  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"macaddr\":\"$MACADDR\",\"ssid\":\"$SSID\",\"channel\":\"$WIFI_CHANNEL\",\"signal\":\"$WIFI_SIGNAL\",\"timezone\":\"$TZ\",\"uptime\":\"$UPTIME\",\"countdown\":\"$DELAYMINS\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"ondelay\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on&mins=$DELAYMINS\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\",\"offdelay\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off&mins=$DELAYMINS\"}}}$RWRAPPER"
 fi

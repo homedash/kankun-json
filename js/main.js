@@ -33,9 +33,10 @@ $(document).ready( function() {
 });
 
 function takeAction( url, id ) {
-  if ( url.lastIndexOf( '&mins=60' ) ) {  // if the url includes mins it's a delyed action, use the value from the slider.
+  var param='&mins='+all_switches[id].info.countdown;
+  if ( url.indexOf("mins=") > -1 ) {  // if the url includes mins it's a delyed action, use the value from the slider.
     var v = $( '#slider-fill-' + id ).val();
-    url = url.replace( '&mins=60', '&mins=' + v );
+    url = url.replace(/mins=[0-9]+/,'&mins=' + v)
   }
   $.getJSON( url + '&callback=?', function( result ) {
     UpdateSwitchData( id );
@@ -69,6 +70,10 @@ function UpdateSwitchData( id ) {
           takeAction( evt.data.url, id );
         });
       });
+
+      //update lsider value based on data from switch
+      $('#slider-fill-'+id).val(all_switches[id].info.countdown);
+      $('#slider-fill-'+id).slider('refresh');
 
       //show network info
       $('#infotbl-' + id).empty();
