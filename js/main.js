@@ -5,7 +5,7 @@ $(document).ready( function() {
   var switchesJSON = $
     .ajax( { url: 'switches.json', cache: false, dataType: 'json' } )
     .fail( function() {
-      alert( 'Cannot find any switches' );
+      alert( 'Cannot find any switches\nPlease check for switches.json file' );
     })
     .always( function( data ) {
       // create a section for each switch
@@ -43,7 +43,8 @@ function takeAction( url, id ) {
 }
 
 function UpdateSwitchData( id ) {
-  base_url = (isInternal() ? all_switches[id].ip : all_switches[id].ext)
+  base_url = '//'+(isInternal() ? all_switches[id].ip : all_switches[id].ext);
+
   var switchinfoJSON = $
     .ajax( { url: base_url + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
     .fail( function() {
