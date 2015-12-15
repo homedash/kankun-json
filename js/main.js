@@ -43,10 +43,9 @@ function takeAction( url, id ) {
 }
 
 function UpdateSwitchData( id ) {
-  ip = all_switches[id].ip;
-
+  base_url = (isInternal() ? all_switches[id].ip : all_switches[id].ext)
   var switchinfoJSON = $
-    .ajax( { url: 'http://' + ip + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
+    .ajax( { url: base_url + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
     .fail( function() {
       $('#imgSignal-' + id).attr( 'src', 'images/wifi_a2.png' );
       alert( 'Cannot contact' );
@@ -89,12 +88,12 @@ function UpdateSwitchData( id ) {
       });
 
       //list any scheduled jobs
-      var getjobs_url = 'http://' + ip + '/cgi-bin/json.cgi?get=jobs';
+      var getjobs_url = base_url + '/cgi-bin/json.cgi?get=jobs';
       $('#jobtbl-' + id).empty();
       $.getJSON( getjobs_url + '&callback=?', function( result ) {
         $.each( result.jobs, function ( key, data ) {
           var action = ( ( data.queue == 'b' ) ? 'on' : 'off' );
-          var cancel_url = 'http://' + ip + '/cgi-bin/json.cgi?canceljob=' + data.jobid;
+          var cancel_url = base_url + '/cgi-bin/json.cgi?canceljob=' + data.jobid;
           $('#jobtbl-' + id).append( '<tr><td>' + action + '</td><td>' + data.date + '</td><td><a href="' + cancel_url + '" class="ui-btn ui-icon-delete ui-btn-icon-left " >cancel</a></td></tr>' );
         });
       });
@@ -147,4 +146,8 @@ function slugify( text ) {
     .replace( /\-\-+/g, '-' )         // Replace multiple - with single -
     .replace( /^-+/, '' )             // Trim - from start of text
     .replace( /-+$/, '' );            // Trim - from end of text
+}
+
+function isInternal() {
+  return RegExp("(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)").test(location.host);
 }

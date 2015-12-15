@@ -106,5 +106,5 @@ if [ "$canceljob" -ge 0 ] 2> /dev/null; then
 fi
 
 if [ -z "$get" ] && [ -z "$set" ]; then
-  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"macaddr\":\"$MACADDR\",\"ssid\":\"$SSID\",\"channel\":\"$WIFI_CHANNEL\",\"signal\":\"$WIFI_SIGNAL\",\"timezone\":\"$TZ\",\"uptime\":\"$UPTIME\"},\"links\":{\"meta\":{\"state\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?get=state\"},\"actions\":{\"on\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on\",\"ondelay\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=on&mins=60\",\"off\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off\",\"offdelay\":\"http://$IP_ADDRESS/cgi-bin/json.cgi?set=off&mins=60\"}}}$RWRAPPER"
+  echo "$callback$LWRAPPER{\"info\":{\"name\":\"kankun-json\",\"version\":\"$VERSION\",\"ipAddress\":\"$IP_ADDRESS\",\"macaddr\":\"$MACADDR\",\"ssid\":\"$SSID\",\"channel\":\"$WIFI_CHANNEL\",\"signal\":\"$WIFI_SIGNAL\",\"timezone\":\"$TZ\",\"uptime\":\"$UPTIME\"},\"links\":{\"meta\":{\"state\":\"/cgi-bin/json.cgi?get=state\"},\"actions\":{\"on\":\"/cgi-bin/json.cgi?set=on\",\"ondelay\":\"/cgi-bin/json.cgi?set=on&mins=60\",\"off\":\"/cgi-bin/json.cgi?set=off\",\"offdelay\":\"/cgi-bin/json.cgi?set=off&mins=60\"}}}$RWRAPPER"
 fi
