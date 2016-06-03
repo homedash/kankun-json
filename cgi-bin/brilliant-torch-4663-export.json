@@ -1,0 +1,19 @@
+{
+  "<!-- AngularFire -->" : "<script src=\"https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js\"></script>",
+  "<!-- AngularJS -->" : "<script src=\"https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js\"></script>",
+  "<!-- Firebase -->" : "<script src=\"https://cdn.firebase.com/js/client/2.2.4/firebase.js\"></script>",
+  "auth_provider_x509_cert_url" : "https://www.googleapis.com/oauth2/v1/certs",
+  "auth_uri" : "https://accounts.google.com/o/oauth2/auth",
+  "client_email" : "hh-869@project-id-idceiavcldbvfqrbxte.iam.gserviceaccount.com",
+  "client_id" : "116342332192197240780",
+  "client_x509_cert_url" : "https://www.googleapis.com/robot/v1/metadata/x509/hh-869%40project-id-idceiavcldbvfqrbxte.iam.gserviceaccount.com",
+  "firebase" : {
+    "firebase" : "var app = angular.module(\"sampleApp\", [\"firebase\"]);",
+    "log" : "app.controller(\"SampleCtrl\", function($scope, $firebaseObject) {   var ref = new Firebase(\"https://<YOUR-FIREBASE-APP>.firebaseio.com\");   // download the data into a local object   $scope.data = $firebaseObject(ref);   // putting a console.log here won't work, see below });"
+  },
+  "private_key" : "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCeqJygIsR91dc/\nXEeUltbnTsQcDDWpNlGZdy2PvBcEUHajiC2A0p6diYeNCJ5fh6+sjmiv0b7yqg9i\ng7CM/UBvBKtz8U1b8wI/1uaybrezgwNUR76icVgnrClJc6kjX0272vQTokhPw1p+\nC8nkZTc4UAizWQFKXyS0NkZ0atzAAl295N62Yxr+iFxbU11cvI6aVTuzMQBG/xIm\np/e+FbCkXjmsMM1/LXeJhb7aG+UUk8qfyqOyXhZSLyy+Mr5jf0ebl9UNJBzZbcUb\nIGZvm9M72Mh/PsH11ge1goVUuH6OWcN6E+JVMFgd51RLsXKlk3O402VIUFDIzWgd\nKG5XPhrTAgMBAAECggEAQeqTiARp1k3tq6lPI/C3QEp9N5nrAW5L4JKfH0Rp26UC\nZVbCcO8QbysgYfvesJnS5sITxFhEGNWGpstHoovlJTqvcPAjz7vah2NlXWSadb5M\nt8tG7H5ivbjNPnMLJmMGDLIfDbkyidED27JSIs3ab07xDnJAEwIMYcLa6qsrI6ov\njdVif1BHckQUccU1TS9bJZG1D0ezTPTavRpDLz1S5TCIhVi2jxQ8gEzINZ3VZwwE\nrpZh75gEt2aSlbvOoqQ5CNdT6BxopXUR5I/MzHUwUWAXy2HqYMtWYRrJABu/nIj5\nPV5H6oZxn1ru5ivcGpwjcd6Ohipy40Cg6mU/wloGQQKBgQDgmVBsxq/FhStXfAuD\nMrm/kaj2D0Nn9LTiC50BgRTyLPEhrwwLcp/mM40TNBA6Ji5ZEYSh4GVXXl+xp4Mw\ngADEuR6q1CFkfMo1sA/6CwiX+BQ95hGCqVho29aDKpDbehnKUzJ5W/Th0ack7+TP\n1jvHDST04MhDJPDyYVYv8urkywKBgQC01zXuo5e9s1KANc1LmyF01yJ86lLjOyjB\nyC6mRNIW73CTQFaNZjj9kU4mRFHkRpMQpvQNuTT91siUbwr6Bvg3BMTJzNiXeYGH\n4Zb5KJI1cuy71SVe3URGiq71sGjaP3TVeiZfJnPyzVrdoBH24QQghedf2Zaiqnwb\nEbLIaxPpGQKBgQDNqFVWZVCKAvi+8Nzx0772RYB7X1qPlCkVWyD3QaVWZASgnVLg\nIKN9/PJPBTteo5uI/1t9hqYFLGtfl02vWWZavE/yiK/S/dmC86aNhRDnZsfSLhsW\nk85apgJ0tMNT1ShMdYYgTi2boYf1cJ0KGtc92zFd8X4uzWK77pkm6r5fpQKBgQCH\nzKzFXbgPTl//w2c9BWukUAGoCFbiKIS8sFTHqxqQ+pFxInlciYz2bW1gMyHD6HN7\np8PRomj2zZmmTZTSmPVAa6ZTXC6x4R6yKWe0BxF0ba70hmUfzcz9pBsqiKTUb56O\nyMGT5k5f4HIBx7h1yhfNTICpa75AvQGhWjMFadNz0QKBgQDIo5tofmoYXcsoRuHI\noPtA8qk7hGGvEMHWM2CYfnRuARwsYq/WWfBHrI57sn3HcnpsxQrUrkUK7dOQHu5a\nzaRdfUf4DSpD8JNccvEbJWZwPcnGj4x1767EHTVWn65aTH7VBFVgZah4wnG/U0Wz\n9Ah4PSzBMuflGpqm95g2SbrhmA==\n-----END PRIVATE KEY-----\n",
+  "private_key_id" : "26d643efd800b4df686b95168075e453ec421a09",
+  "project_id" : "project-id-idceiavcldbvfqrbxte",
+  "token_uri" : "https://accounts.google.com/o/oauth2/token",
+  "type" : "service_account"
+}
