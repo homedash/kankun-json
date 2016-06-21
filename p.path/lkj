@@ -1,0 +1,111 @@
+.kx-sidebar {
+	position:relative;
+	height:100%;
+	width:339px
+}
+.kx-sidebar .kx-sidebar-content-region {
+	height:100%;
+	background-color:#131313
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout {
+	overflow-y:auto;
+	overflow-x:hidden;
+	position:relative
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading {
+	height:41px;
+	line-height:41px;
+	background-color:#252525;
+	border-bottom:1px solid #424242;
+	text-align:center
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-sidebar-close-btn {
+	position:absolute;
+	right:4px;
+	top:10px;
+	width:21px;
+	height:21px;
+	border:none;
+	background-color:transparent;
+	background-image:url(/modules/sidebar/images/../../common/images/sidebar-close-button-sprite.png);
+	background-position:0 -100%;
+	cursor:pointer
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-sidebar-close-btn:hover {
+	background-position:0 0
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-title {
+	display:inline-block
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-title span {
+	width:200px;
+	height:41px;
+	display:block;
+	line-height:41px;
+	padding-left:7px;
+	vertical-align:middle;
+	font-weight:700;
+	font-size:14px;
+	color:#FFF;
+	font-family:myriad-pro,verdana,helvetica,sans-serif;
+	text-transform:uppercase;
+	text-shadow:#000 0 -1px 0
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-cta-region .kx-settings-button {
+	position:absolute;
+	right:31px;
+	top:9px;
+	width:24px;
+	height:23px;
+	border:none;
+	background:url(/modules/sidebar/images/../../common/images/sidebar-settings-cog-sprite.png) 0 -100%;
+	cursor:pointer
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-cta-region .kx-settings-button:hover {
+	background-position:0 0
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-cta-region .kx-sidebar-cta-button {
+	position:absolute;
+	right:37px;
+	top:8px;
+	height:19px
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-cta-region .kx-breadcrumb-back-button {
+	position:absolute;
+	left:8px;
+	top:12px;
+	width:12px;
+	height:18px;
+	border:none;
+	background:url(/modules/sidebar/images/../../common/images/back-button-sprite.png) 0 -100%;
+	cursor:pointer
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-panel-layout .kx-heading .kx-heading-cta-region .kx-breadcrumb-back-button:hover {
+	background-position:0 0
+}
+.kx-sidebar .kx-sidebar-content-region .kx-ribbon-region {
+	position:relative;
+	max-height:400px;
+	overflow-y:auto;
+	background-color:#252525;
+	-webkit-box-shadow:rgba(0,0,0,.6) 0 3px 5px inset;
+	-moz-box-shadow:rgba(0,0,0,.6) 0 3px 5px inset;
+	box-shadow:rgba(0,0,0,.6) 0 3px 5px inset
+}
+.kx-sidebar .kx-sidebar-content-region .kx-content-region {
+	overflow-x:hidden;
+	background-color:#0e0e0e
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-footer-region {
+	display:none
+}
+.kx-sidebar .kx-sidebar-content-region .kx-sidebar-footer-region.visible {
+	display:block;
+	position:absolute;
+	height:41px;
+	right:0;
+	bottom:0;
+	left:0;
+	text-align:right;
+	background-color:#2d2d2d
+}

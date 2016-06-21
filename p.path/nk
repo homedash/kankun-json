@@ -1,0 +1,176 @@
+.autosizejs {
+	line-height:16px
+}
+.kx-message-input {
+	position:relative
+}
+.kx-message-input textarea {
+	border:none;
+	width:619px;
+	line-height:16px;
+	font-size:14px;
+	color:#000;
+	background-color:#787878;
+	font-family:myriad-pro,verdana,helvetica,sans-serif;
+	display:block;
+	float:left;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+	padding:7px 8px 9px;
+	height:32px;
+	min-height:32px;
+	resize:none
+}
+.kx-message-input .kx-message-input-wrapper {
+	width:100%;
+	padding:5px;
+	position:relative
+}
+.kx-message-input textarea:focus {
+	outline:0
+}
+.kx-message-input textarea[disabled] {
+	background-color:#a8a8a8
+}
+.kx-message-input textarea::-webkit-input-placeholder {
+	color:#2c2c2c
+}
+.kx-message-input .kx-message-input-submit-loader {
+	width:16px;
+	height:11px;
+	background-image:url(/modules/common/components/message_input/images/fb_797979_FFFFFF.gif?1463612477);
+	background-repeat:no-repeat;
+	background-position:top left;
+	float:right;
+	margin-right:10px;
+	margin-top:15px
+}
+.kx-message-input .kx-submit-btn-region {
+	float:right
+}
+.kx-message-input .kx-message-input-warning-section {
+	width:100%;
+	font-family:myriad-pro,verdana,helvetica,sans-serif;
+	font-size:14px;
+	line-height:14px;
+	opacity:0;
+	display:none
+}
+.kx-message-input .kx-message-input-warning-section .kx-message-input-warning-message {
+	max-width:400px;
+	float:left;
+	padding-top:10px
+}
+.kx-message-input .kx-message-input-warning-section .kx-message-input-warning-message.error {
+	color:#b00000
+}
+.kx-message-input .kx-message-input-warning-section .kx-message-input-warning-message.warning {
+	color:#CCC
+}
+.kx-message-input .kx-message-input-warning-section .kx-message-input-warning-cta {
+	float:left;
+	padding:10px 0 0 10px;
+	cursor:pointer;
+	color:#000;
+	text-decoration:underline;
+	display:none
+}
+.kx-message-input .kx-message-tabs {
+	display:none
+}
+.kx-message-input.kx-expanded .kx-message-input-wrapper {
+	background-color:#797979;
+	padding:5px;
+	position:relative
+}
+.kx-message-input.kx-expanded.kx-submit-disabled textarea {
+	margin-bottom:30px
+}
+.kx-message-input.kx-expanded textarea {
+	background-color:#a8a8a8;
+	border:1px solid #a8a8a8;
+	width:100%;
+	overflow:auto
+}
+.kx-message-input.kx-expanded .kx-validation {
+	position:absolute;
+	width:14px;
+	height:14px;
+	right:11px;
+	top:14px
+}
+.kx-message-input.kx-expanded .kx-validation.success {
+	background-image:url(/modules/common/components/message_input/images/checkmark.png?1463612477)
+}
+.kx-message-input.kx-expanded .kx-validation.error {
+	background-image:url(/modules/common/components/message_input/images/xmark.png?1463612477)
+}
+.kx-message-input.kx-expanded .kx-submit-btn-region {
+	float:right;
+	padding-top:6px
+}
+.kx-message-input.kx-expanded .kx-image-preview-region {
+	background-color:#a8a8a8
+}
+.kx-message-input.kx-expanded .kx-image-preview-region .kx-message-photo-upload-thumb-preview-section {
+	width:100%
+}
+.kx-message-input.kx-expanded .kx-image-preview-region .kx-message-photo-upload-thumb-preview-section .kx-message-photo-upload-preview {
+	padding:7px
+}
+.kx-message-input.kx-expanded .kx-message-tabs {
+	display:none;
+	width:100%;
+	height:35px;
+	background-image:url(/modules/common/components/message_input/images/tab_bottom_border.png?1463612477);
+	background-position:center bottom;
+	background-repeat:no-repeat;
+	background-size:100% 2px;
+	margin-bottom:8px;
+	position:relative
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-add-intel-region,.kx-message-input.kx-expanded .kx-message-tabs .kx-message-add-photo-region,.kx-message-input.kx-expanded .kx-message-tabs .kx-message-tab-divider {
+	float:left
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-tab-divider {
+	padding:5px 20px 0;
+	color:#3f3f3f;
+	font-family:proxima-nova,'helvetica neue',helvetica,arial,sans-serif;
+	font-size:18px
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-add-post-btn {
+	width:100%;
+	height:29px;
+	background-image:url(/modules/common/components/message_input/images/message_input_tab_icon_intel.png?1463612477);
+	background-position:0 3px;
+	background-repeat:no-repeat
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-add-post-btn .kx-button-label {
+	padding-left:25px;
+	color:#c4c4c4;
+	font-family:proxima-nova,'helvetica neue',helvetica,arial,sans-serif;
+	font-size:12px
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-add-media-btn {
+	width:100%;
+	height:29px;
+	background-image:url(/modules/common/components/message_input/images/message_input_tab_icon_media.png?1463612477);
+	background-position:0 5px;
+	background-repeat:no-repeat
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-add-media-btn .kx-button-label {
+	padding-left:25px;
+	color:#c4c4c4;
+	font-family:proxima-nova,'helvetica neue',helvetica,arial,sans-serif;
+	font-size:12px
+}
+.kx-message-input.kx-expanded .kx-message-tabs .kx-message-tab-active-indicator {
+	position:absolute;
+	background-image:url(/modules/common/components/message_input/images/tab_arrow_indicator.png?1463612477);
+	background-repeat:no-repeat;
+	width:16px;
+	height:11px;
+	left:0;
+	bottom:0
+}
