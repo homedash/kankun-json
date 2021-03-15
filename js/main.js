@@ -4,7 +4,7 @@ $(document).ready( function() {
   // get the list of switches to poll
   var switchesJSON = $
     .ajax( { url: 'switches.json', cache: false, dataType: 'json' } )
-    .fail( function(e, textStatus ) {
+    .fail( function( e, textStatus ) {
       alert( 'Cannot find any switches: ' + textStatus );
     })
     .done( function( data ) {
@@ -47,9 +47,9 @@ function UpdateSwitchData( id ) {
 
   var switchinfoJSON = $
     .ajax( { url: 'http://' + ip + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
-    .fail( function() {
+    .fail( function( e, textStatus ) {
       $('#imgSignal-' + id).attr( 'src', 'images/wifi_a2.png' );
-      alert( 'Cannot contact' );
+      alert( 'Unable to connect: ' + textStatus );
     })
     .done( function( data ) { // enable switch
       //add the data from the device to the array
