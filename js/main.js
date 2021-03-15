@@ -22,8 +22,8 @@ $(document).ready( function() {
               <input type="range" name="slider-fill'+new_id+'" id="slider-fill-'+new_id+'" value="60" min="0" max="300"  step="15" data-highlight="true"></div> \
             </span></p><table id="infotbl-' + new_id + '"> \
             </table><table id="jobtbl-' + new_id + '"></table> \
-        </div>');
-        $('#switches-set').collapsibleset().trigger( 'create' );
+        </div>')
+          .collapsibleset().trigger( 'create' );
 
         all_switches[new_id] = obj;
         all_switches[new_id].id = new_id;
@@ -71,17 +71,17 @@ function UpdateSwitchData( id ) {
       });
 
       //show network info
-      $('#infotbl-' + id).empty();
-      $('#infotbl-' + id).append( '<tr><td>Uptime:</td><td>' + all_switches[id].info.uptime + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>IP:</td><td>' + all_switches[id].ip + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>MAC:</td><td>' + all_switches[id].info.macaddr + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>BSID:</td><td>' + all_switches[id].info.ssid + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>Channel:</td><td>' + all_switches[id].info.channel + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>Signal:</td><td>' + all_switches[id].info.signal + ' dBm</td></tr>' );
+      $('#infotbl-' + id).empty()
+        .append('<tr><td>Uptime:</td><td>' + all_switches[id].info.uptime + '</td></tr>')
+        .append('<tr><td>IP:</td><td>' + all_switches[id].ip + '</td></tr>')
+        .append('<tr><td>MAC:</td><td>' + all_switches[id].info.macaddr + '</td></tr>')
+        .append('<tr><td>BSID:</td><td>' + all_switches[id].info.ssid + '</td></tr>')
+        .append('<tr><td>Channel:</td><td>' + all_switches[id].info.channel + '</td></tr>')
+        .append('<tr><td>Signal:</td><td>' + all_switches[id].info.signal + ' dBm</td></tr>');
 
       // show wifi info
-      $('#right-' + id + ' span').append( '<span>' + all_switches[id].info.ssid + '</span></br>' );
-      $('#right-' + id + ' span').append( '<span>ch ' + all_switches[id].info.channel + '</span>' );
+      $('#right-' + id + ' span').append( '<span>' + all_switches[id].info.ssid + '</span></br>' )
+        .append( '<span>ch ' + all_switches[id].info.channel + '</span>' );
 
       //update switch based on actual reported state
       $.getJSON( all_switches[id].links.meta.state + '&callback=?', function( result ) {
