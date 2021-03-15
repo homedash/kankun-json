@@ -4,10 +4,10 @@ $(document).ready( function() {
   // get the list of switches to poll
   var switchesJSON = $
     .ajax( { url: 'switches.json', cache: false, dataType: 'json' } )
-    .fail( function() {
-      alert( 'Cannot find any switches' );
+    .fail( function(e, textStatus ) {
+      alert( 'Cannot find any switches: ' + textStatus );
     })
-    .always( function( data ) {
+    .done( function( data ) {
       // create a section for each switch
       $('#switches').html( '<div data-role="collapsible-set" id="switches-set"></div>' );
       var menuCollapsed = ( data.switches.length > 1 ? 'true' : 'false' );
@@ -43,7 +43,7 @@ function takeAction( url, id ) {
 }
 
 function UpdateSwitchData( id ) {
-  ip = all_switches[id].ip;
+  var ip = all_switches[id].ip;
 
   var switchinfoJSON = $
     .ajax( { url: 'http://' + ip + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
@@ -144,7 +144,7 @@ function slugify( text ) {
   return text.toString().toLowerCase()
     .replace( /\s+/g, '-' )           // Replace spaces with -
     .replace( /[^\w\-]+/g, '' )       // Remove all non-word chars
-    .replace( /\-\-+/g, '-' )         // Replace multiple - with single -
+    .replace( /--+/g, '-' )         // Replace multiple - with single -
     .replace( /^-+/, '' )             // Trim - from start of text
     .replace( /-+$/, '' );            // Trim - from end of text
 }
