@@ -5,8 +5,8 @@
       "ip": "10.0.0.10"
     },
     {
-      "DisplayName": "Switch 2",
-      "ip": "10.0.0.11"
+      "DisplayName": "Switch 2 Available by public IP from DynDNS, https and custom port",
+      "baseUrl": "https://myswitch.duckdns.org:8443"
     }
   ]
 }

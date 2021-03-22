@@ -4,10 +4,10 @@ $(document).ready( function() {
   // get the list of switches to poll
   var switchesJSON = $
     .ajax( { url: 'switches.json', cache: false, dataType: 'json' } )
-    .fail( function() {
-      alert( 'Cannot find any switches' );
+    .fail( function( e, textStatus ) {
+      alert( 'Cannot find any switches\nPlease check for switches.json file.\nError: ' + textStatus );
     })
-    .always( function( data ) {
+    .done( function( data ) {
       // create a section for each switch
       $('#switches').html( '<div data-role="collapsible-set" id="switches-set"></div>' );
       var menuCollapsed = ( data.switches.length > 1 ? 'true' : 'false' );
@@ -22,8 +22,8 @@ $(document).ready( function() {
               <input type="range" name="slider-fill'+new_id+'" id="slider-fill-'+new_id+'" value="60" min="0" max="300"  step="15" data-highlight="true"></div> \
             </span></p><table id="infotbl-' + new_id + '"> \
             </table><table id="jobtbl-' + new_id + '"></table> \
-        </div>');
-        $('#switches-set').collapsibleset().trigger( 'create' );
+        </div>')
+          .collapsibleset().trigger( 'create' );
 
         all_switches[new_id] = obj;
         all_switches[new_id].id = new_id;
@@ -43,58 +43,59 @@ function takeAction( url, id ) {
 }
 
 function UpdateSwitchData( id ) {
-  ip = all_switches[id].ip;
+  var switchMeta = all_switches[id];
 
   var switchinfoJSON = $
-    .ajax( { url: 'http://' + ip + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
-    .fail( function() {
+    .ajax( { url: buildActionUrl( switchMeta, '/cgi-bin/json.cgi' ), cache: false, dataType: 'jsonp' } )
+    .fail( function( e, textStatus ) {
       $('#imgSignal-' + id).attr( 'src', 'images/wifi_a2.png' );
-      alert( 'Cannot contact' );
+      alert( 'Unable to connect: ' + textStatus );
     })
     .done( function( data ) { // enable switch
       //add the data from the device to the array
-      $.extend( all_switches[id], data );
+      $.extend( switchMeta, data );
 
       //check the wifi signal
-      var imgSig = ( 'images/' + getSignalStrengthImage( all_switches[id].info.signal ) );
+      var imgSig = ( 'images/' + getSignalStrengthImage( switchMeta.info.signal ) );
       $('#imgSignal-' + id).attr( 'src', imgSig );
 
       // show actions
-      $('#colapseable-header-' + id + ' span').html( all_switches[id].DisplayName );
+      $('#colapseable-header-' + id + ' span').html( switchMeta.DisplayName );
       $('#colapseable-content-' + id + ' span').html('');
-      $.each( all_switches[id].links.actions, function ( key, data ) {
+      $.each( switchMeta.links.actions, function ( key, data ) {
+        var actionUrl = buildActionUrl( switchMeta, data );
         $('#colapseable-content-' + id + ' span').append( '<button class="ui-btn" id="' + id + '-action-' + key + '">' + key + '</button>' );
 
-        $('#' + id + '-action-' + key).click( { url: data }, function( evt ) {
+        $('#' + id + '-action-' + key).click( { url: actionUrl }, function( evt ) {
           takeAction( evt.data.url, id );
         });
       });
 
       //show network info
-      $('#infotbl-' + id).empty();
-      $('#infotbl-' + id).append( '<tr><td>Uptime:</td><td>' + all_switches[id].info.uptime + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>IP:</td><td>' + all_switches[id].ip + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>MAC:</td><td>' + all_switches[id].info.macaddr + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>BSID:</td><td>' + all_switches[id].info.ssid + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>Channel:</td><td>' + all_switches[id].info.channel + '</td></tr>' );
-      $('#infotbl-' + id).append( '<tr><td>Signal:</td><td>' + all_switches[id].info.signal + ' dBm</td></tr>' );
+      $('#infotbl-' + id).empty()
+        .append('<tr><td>Uptime:</td><td>' + switchMeta.info.uptime + '</td></tr>')
+        .append('<tr><td>IP:</td><td>' + switchMeta.ip + '</td></tr>')
+        .append('<tr><td>MAC:</td><td>' + switchMeta.info.macaddr + '</td></tr>')
+        .append('<tr><td>BSID:</td><td>' + switchMeta.info.ssid + '</td></tr>')
+        .append('<tr><td>Channel:</td><td>' + switchMeta.info.channel + '</td></tr>')
+        .append('<tr><td>Signal:</td><td>' + switchMeta.info.signal + ' dBm</td></tr>');
 
       // show wifi info
-      $('#right-' + id + ' span').append( '<span>' + all_switches[id].info.ssid + '</span></br>' );
-      $('#right-' + id + ' span').append( '<span>ch ' + all_switches[id].info.channel + '</span>' );
+      $('#right-' + id + ' span').append( '<span>' + switchMeta.info.ssid + '</span></br>' )
+        .append( '<span>ch ' + switchMeta.info.channel + '</span>' );
 
       //update switch based on actual reported state
-      $.getJSON( all_switches[id].links.meta.state + '&callback=?', function( result ) {
-        $('#colapseable-header-' + id + ' span').html( all_switches[id].DisplayName + ' (' + result.state + ')' );
+      $.getJSON( buildActionUrl( switchMeta, switchMeta.links.meta.state ) + '&callback=?', function( result ) {
+        $('#colapseable-header-' + id + ' span').html( switchMeta.DisplayName + ' (' + result.state + ')' );
       });
 
       //list any scheduled jobs
-      var getjobs_url = 'http://' + ip + '/cgi-bin/json.cgi?get=jobs';
+      var getjobs_url = buildActionUrl( switchMeta, '/cgi-bin/json.cgi?get=jobs' );
       $('#jobtbl-' + id).empty();
       $.getJSON( getjobs_url + '&callback=?', function( result ) {
         $.each( result.jobs, function ( key, data ) {
           var action = ( ( data.queue == 'b' ) ? 'on' : 'off' );
-          var cancel_url = 'http://' + ip + '/cgi-bin/json.cgi?canceljob=' + data.jobid;
+          var cancel_url = buildActionUrl( switchMeta, '/cgi-bin/json.cgi?canceljob=' + data.jobid );
           $('#jobtbl-' + id).append( '<tr><td>' + action + '</td><td>' + data.date + '</td><td><a href="' + cancel_url + '" class="ui-btn ui-icon-delete ui-btn-icon-left " >cancel</a></td></tr>' );
         });
       });
@@ -144,7 +145,17 @@ function slugify( text ) {
   return text.toString().toLowerCase()
     .replace( /\s+/g, '-' )           // Replace spaces with -
     .replace( /[^\w\-]+/g, '' )       // Remove all non-word chars
-    .replace( /\-\-+/g, '-' )         // Replace multiple - with single -
+    .replace( /--+/g, '-' )         // Replace multiple - with single -
     .replace( /^-+/, '' )             // Trim - from start of text
     .replace( /-+$/, '' );            // Trim - from end of text
+}
+
+function buildActionUrl( switchMeta, url ) {
+  var base_url = switchMeta.baseUrl ? switchMeta.baseUrl : 'http://' + switchMeta.ip;
+  // fix legacy links: remove http://ip part. We'll use ip instead
+  if (url.startsWith( 'http://' )) {
+    return url.replace( /(http:\/\/.*?)(\/.*)/, base_url + '$2' );
+  } else {
+    return base_url + url;
+  }
 }
