@@ -64,9 +64,10 @@ function UpdateSwitchData( id ) {
       $('#colapseable-header-' + id + ' span').html( switchMeta.DisplayName );
       $('#colapseable-content-' + id + ' span').html('');
       $.each( switchMeta.links.actions, function ( key, data ) {
+        var actionUrl = buildActionUrl( switchMeta, data );
         $('#colapseable-content-' + id + ' span').append( '<button class="ui-btn" id="' + id + '-action-' + key + '">' + key + '</button>' );
 
-        $('#' + id + '-action-' + key).click( { url: data }, function( evt ) {
+        $('#' + id + '-action-' + key).click( { url: actionUrl }, function( evt ) {
           takeAction( evt.data.url, id );
         });
       });
@@ -85,7 +86,7 @@ function UpdateSwitchData( id ) {
         .append( '<span>ch ' + switchMeta.info.channel + '</span>' );
 
       //update switch based on actual reported state
-      $.getJSON( switchMeta.links.meta.state + '&callback=?', function( result ) {
+      $.getJSON( buildActionUrl( switchMeta, switchMeta.links.meta.state ) + '&callback=?', function( result ) {
         $('#colapseable-header-' + id + ' span').html( switchMeta.DisplayName + ' (' + result.state + ')' );
       });
 
@@ -148,4 +149,14 @@ function slugify( text ) {
     .replace( /--+/g, '-' )         // Replace multiple - with single -
     .replace( /^-+/, '' )             // Trim - from start of text
     .replace( /-+$/, '' );            // Trim - from end of text
+}
+
+function buildActionUrl( switchMeta, url ) {
+  var base_url = 'http://' + switchMeta.ip;
+  // fix legacy links: remove http://ip part. We'll use ip instead
+  if (url.startsWith( 'http://' )) {
+    return url.replace( /(http:\/\/.*?)(\/.*)/, base_url + '$2' );
+  } else {
+    return base_url + url;
+  }
 }
