@@ -151,7 +151,7 @@ function slugify( text ) {
 }
 
 function buildActionUrl( switchMeta, url ) {
-  var base_url = 'http://' + switchMeta.ip;
+  var base_url = switchMeta.baseUrl ? switchMeta.baseUrl : 'http://' + switchMeta.ip;
   // fix legacy links: remove http://ip part. We'll use ip instead
   if (url.startsWith( 'http://' )) {
     return url.replace( /(http:\/\/.*?)(\/.*)/, base_url + '$2' );
