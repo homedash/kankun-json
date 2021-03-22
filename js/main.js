@@ -43,7 +43,8 @@ function takeAction( url, id ) {
 }
 
 function UpdateSwitchData( id ) {
-  var base_url = 'http://' + all_switches[id].ip;
+  var switchMeta = all_switches[id];
+  var base_url = 'http://' + switchMeta.ip;
 
   var switchinfoJSON = $
     .ajax( { url: base_url + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
@@ -53,16 +54,16 @@ function UpdateSwitchData( id ) {
     })
     .done( function( data ) { // enable switch
       //add the data from the device to the array
-      $.extend( all_switches[id], data );
+      $.extend( switchMeta, data );
 
       //check the wifi signal
-      var imgSig = ( 'images/' + getSignalStrengthImage( all_switches[id].info.signal ) );
+      var imgSig = ( 'images/' + getSignalStrengthImage( switchMeta.info.signal ) );
       $('#imgSignal-' + id).attr( 'src', imgSig );
 
       // show actions
-      $('#colapseable-header-' + id + ' span').html( all_switches[id].DisplayName );
+      $('#colapseable-header-' + id + ' span').html( switchMeta.DisplayName );
       $('#colapseable-content-' + id + ' span').html('');
-      $.each( all_switches[id].links.actions, function ( key, data ) {
+      $.each( switchMeta.links.actions, function ( key, data ) {
         $('#colapseable-content-' + id + ' span').append( '<button class="ui-btn" id="' + id + '-action-' + key + '">' + key + '</button>' );
 
         $('#' + id + '-action-' + key).click( { url: data }, function( evt ) {
@@ -72,20 +73,20 @@ function UpdateSwitchData( id ) {
 
       //show network info
       $('#infotbl-' + id).empty()
-        .append('<tr><td>Uptime:</td><td>' + all_switches[id].info.uptime + '</td></tr>')
-        .append('<tr><td>IP:</td><td>' + all_switches[id].ip + '</td></tr>')
-        .append('<tr><td>MAC:</td><td>' + all_switches[id].info.macaddr + '</td></tr>')
-        .append('<tr><td>BSID:</td><td>' + all_switches[id].info.ssid + '</td></tr>')
-        .append('<tr><td>Channel:</td><td>' + all_switches[id].info.channel + '</td></tr>')
-        .append('<tr><td>Signal:</td><td>' + all_switches[id].info.signal + ' dBm</td></tr>');
+        .append('<tr><td>Uptime:</td><td>' + switchMeta.info.uptime + '</td></tr>')
+        .append('<tr><td>IP:</td><td>' + switchMeta.ip + '</td></tr>')
+        .append('<tr><td>MAC:</td><td>' + switchMeta.info.macaddr + '</td></tr>')
+        .append('<tr><td>BSID:</td><td>' + switchMeta.info.ssid + '</td></tr>')
+        .append('<tr><td>Channel:</td><td>' + switchMeta.info.channel + '</td></tr>')
+        .append('<tr><td>Signal:</td><td>' + switchMeta.info.signal + ' dBm</td></tr>');
 
       // show wifi info
-      $('#right-' + id + ' span').append( '<span>' + all_switches[id].info.ssid + '</span></br>' )
-        .append( '<span>ch ' + all_switches[id].info.channel + '</span>' );
+      $('#right-' + id + ' span').append( '<span>' + switchMeta.info.ssid + '</span></br>' )
+        .append( '<span>ch ' + switchMeta.info.channel + '</span>' );
 
       //update switch based on actual reported state
-      $.getJSON( all_switches[id].links.meta.state + '&callback=?', function( result ) {
-        $('#colapseable-header-' + id + ' span').html( all_switches[id].DisplayName + ' (' + result.state + ')' );
+      $.getJSON( switchMeta.links.meta.state + '&callback=?', function( result ) {
+        $('#colapseable-header-' + id + ' span').html( switchMeta.DisplayName + ' (' + result.state + ')' );
       });
 
       //list any scheduled jobs
