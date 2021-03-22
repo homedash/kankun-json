@@ -5,7 +5,7 @@ $(document).ready( function() {
   var switchesJSON = $
     .ajax( { url: 'switches.json', cache: false, dataType: 'json' } )
     .fail( function( e, textStatus ) {
-      alert( 'Cannot find any switches: ' + textStatus );
+      alert( 'Cannot find any switches\nPlease check for switches.json file.\nError: ' + textStatus );
     })
     .done( function( data ) {
       // create a section for each switch
@@ -43,10 +43,10 @@ function takeAction( url, id ) {
 }
 
 function UpdateSwitchData( id ) {
-  var ip = all_switches[id].ip;
+  var base_url = 'http://' + all_switches[id].ip;
 
   var switchinfoJSON = $
-    .ajax( { url: 'http://' + ip + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
+    .ajax( { url: base_url + '/cgi-bin/json.cgi', cache: false, dataType: 'jsonp' } )
     .fail( function( e, textStatus ) {
       $('#imgSignal-' + id).attr( 'src', 'images/wifi_a2.png' );
       alert( 'Unable to connect: ' + textStatus );
@@ -89,12 +89,12 @@ function UpdateSwitchData( id ) {
       });
 
       //list any scheduled jobs
-      var getjobs_url = 'http://' + ip + '/cgi-bin/json.cgi?get=jobs';
+      var getjobs_url = base_url + '/cgi-bin/json.cgi?get=jobs';
       $('#jobtbl-' + id).empty();
       $.getJSON( getjobs_url + '&callback=?', function( result ) {
         $.each( result.jobs, function ( key, data ) {
           var action = ( ( data.queue == 'b' ) ? 'on' : 'off' );
-          var cancel_url = 'http://' + ip + '/cgi-bin/json.cgi?canceljob=' + data.jobid;
+          var cancel_url = base_url + '/cgi-bin/json.cgi?canceljob=' + data.jobid;
           $('#jobtbl-' + id).append( '<tr><td>' + action + '</td><td>' + data.date + '</td><td><a href="' + cancel_url + '" class="ui-btn ui-icon-delete ui-btn-icon-left " >cancel</a></td></tr>' );
         });
       });
