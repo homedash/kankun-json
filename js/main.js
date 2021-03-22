@@ -27,7 +27,8 @@ $(document).ready( function() {
 
         all_switches[new_id] = obj;
         all_switches[new_id].id = new_id;
-        setInterval( UpdateSwitchData( new_id ), 5000 );
+        UpdateSwitchData( new_id );
+        setInterval( function() { UpdateSwitchData( new_id ) }, 5000 );
       });
     });
 });
